@@ -4,8 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // Dominio definitivo del sito: serve per URL canonici, sitemap e anteprime social.
 // Si può impostare anche dall'hosting con la variabile d'ambiente SITE_URL.
-const SITE = process.env.SITE_URL || 'https://leukos.it';
-if (!process.env.SITE_URL) console.warn(`[leukos] SITE_URL non impostata: uso ${SITE}. Controlla che sia il dominio giusto.`);
+const SITE = process.env.SITE_URL || 'https://leukoslabs.com';
 
 export default defineConfig({
   site: SITE,

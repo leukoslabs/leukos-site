@@ -44,7 +44,7 @@ Hosting statico (Cloudflare Pages, Netlify o Vercel):
 
 - comando di build: `npm run build`
 - cartella di output: `dist`
-- variabile d'ambiente **`SITE_URL`** = il dominio definitivo (es. `https://leukos.it`). Serve per URL canonici, sitemap e anteprime social: se manca, la build usa `https://leukos.it` e lo segnala.
+- dominio: **`https://leukoslabs.com`** (in `astro.config.mjs`; si può sovrascrivere con la variabile d'ambiente `SITE_URL`). Serve per URL canonici, sitemap e anteprime social.
 
 Dopo la pubblicazione: aggiungi il sito a Google Search Console e invia `/sitemap-index.xml`.
 
