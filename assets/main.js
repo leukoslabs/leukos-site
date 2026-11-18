@@ -123,7 +123,6 @@ function route(){
   });
   nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false');
   nav.classList.remove('hide');
-  window.scrollTo(0,0);
   enhance();
   observe();
 }
@@ -140,89 +139,102 @@ addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>260),{passive
 
 /* ================= MOTION ================= */
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const app = document.getElementById('app');
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-// transizione tra pagine: esce, cambia vista, rientra
-let first = true;
-function go(){
-  if(first || RM){ first=false; route(); requestAnimationFrame(intro); return; }
-  app.classList.add('leaving');
-  setTimeout(()=>{
-    route();
-    app.classList.remove('leaving'); app.classList.add('entering');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ app.classList.remove('entering'); intro(); }));
-  }, 320);
-}
-addEventListener('hashchange',go);
-
-// prepara gli elementi della vista corrente (cascata, immagini, logotipo)
-function enhance(){
-  const v=document.querySelector('.view.on'); if(!v) return;
-  v.querySelectorAll('.grid,.svc,.gallery,.facts,.steps').forEach(g=>{
-    [...g.children].forEach((c,i)=>{ if(c.classList.contains('rv')) c.style.setProperty('--d',(i%4)*0.09+'s'); });
-  });
-  v.querySelectorAll('.svc li,.step,.fact').forEach((el,i)=>{ el.style.setProperty('--d',(i%6)*0.07+'s'); });
-  document.querySelectorAll('img:not(.fade)').forEach(img=>{
-    if(img.closest('.nav')||img.closest('footer')||img.classList.contains('chip-star')) return;
-    img.classList.add('fade');
-    const ok=()=>img.classList.add('ok');
-    img.complete && img.naturalWidth ? ok() : img.addEventListener('load',ok,{once:true});
-  });
-}
-
-// intro di hero e pagina progetto
-function intro(){
-  const v=document.querySelector('.view.on');
-  const hero=v && v.querySelector('.hero, .p-hero');
-  document.querySelectorAll('.hero-bg,.hero-in').forEach(e=>{e.style.transform='';e.style.opacity='';});
-  if(hero){ hero.classList.remove('ready'); void hero.offsetWidth; requestAnimationFrame(()=>hero.classList.add('ready')); }
-}
-
-// titolo hero diviso in righe che salgono
-(function(){
-  const h=document.querySelector('.hero h1'); if(!h) return;
-  h.innerHTML=h.innerHTML.split(/<br\s*\/?>/i).map((l,i)=>`<span class="line"><span style="--i:${i}">${l.trim()}</span></span>`).join('');
+/* --- scroll morbido (rotellina/trackpad su desktop; touch e tastiera restano nativi) --- */
+const SS = (() => {
+  let target = scrollY, current = scrollY, running = false, active = !RM && FINE;
+  const max = () => document.documentElement.scrollHeight - innerHeight;
+  function frame(){
+    current += (target - current) * 0.12;
+    if (Math.abs(target - current) < 0.5) { current = target; running = false; }
+    window.scrollTo(0, current);
+    if (running) requestAnimationFrame(frame);
+  }
+  if (active) {
+    addEventListener('wheel', e => {
+      if (e.ctrlKey || e.defaultPrevented) return;
+      // lascia scorrere i contenitori interni scrollabili (select, textarea)
+      if (e.target.closest('textarea, select, [data-native-scroll]')) return;
+      e.preventDefault();
+      const d = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * innerHeight : e.deltaY;
+      target = Math.max(0, Math.min(max(), (running ? target : scrollY) + d));
+      if (!running) { current = scrollY; running = true; requestAnimationFrame(frame); }
+    }, { passive: false });
+    // tastiera, barra di scorrimento, ancore: si riallinea
+    addEventListener('scroll', () => { if (!running) { target = current = scrollY; } }, { passive: true });
+  }
+  return { jump(y){ running = false; target = current = y; window.scrollTo(0, y); } };
 })();
 
-// logotipo gigante del footer: lettera per lettera
+/* --- velo per il cambio pagina --- */
+const veil = document.createElement('div'); veil.className = 'veil'; veil.setAttribute('aria-hidden','true'); document.body.appendChild(veil);
+let first = true;
+function go(){
+  if (first || RM) { first = false; route(); SS.jump(0); requestAnimationFrame(intro); return; }
+  veil.classList.add('on');
+  setTimeout(() => {
+    route(); SS.jump(0);
+    requestAnimationFrame(() => { veil.classList.remove('on'); intro(); });
+  }, 280);
+}
+addEventListener('hashchange', go);
+
+/* --- preparazione della vista: cascata, immagini --- */
+function enhance(){
+  const v = document.querySelector('.view.on'); if (!v) return;
+  v.querySelectorAll('.grid,.svc,.gallery,.facts,.steps,.team,.r-grid,.stats').forEach(g => {
+    [...g.children].forEach((c,i) => c.style.setProperty('--d', (i % 4) * 0.06 + 's'));
+  });
+  document.querySelectorAll('img:not(.fade)').forEach(img => {
+    if (img.closest('.nav') || img.closest('footer') || img.classList.contains('chip-star') || img.closest('.c-direct')) return;
+    img.classList.add('fade');
+    const ok = () => img.classList.add('ok');
+    img.complete && img.naturalWidth ? ok() : (img.addEventListener('load', ok, { once:true }), img.addEventListener('error', ok, { once:true }));
+  });
+}
+
+/* --- intro di hero e pagina progetto --- */
+function intro(){
+  const v = document.querySelector('.view.on');
+  const hero = v && v.querySelector('.hero, .p-hero');
+  if (!hero) return;
+  hero.classList.remove('ready'); void hero.offsetWidth;
+  requestAnimationFrame(() => hero.classList.add('ready'));
+}
+
+/* --- titolo hero in righe --- */
 (function(){
-  const g=document.querySelector('.giant'); if(!g) return;
-  [...g.children].forEach((c,i)=>c.style.setProperty('--i',i));
-  const o=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ g.classList.add('in'); o.disconnect(); } }),{threshold:.3});
+  const h = document.querySelector('.hero h1'); if (!h) return;
+  h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((l,i) => `<span class="line"><span style="--i:${i}">${l.trim()}</span></span>`).join('');
+})();
+
+/* --- logotipo gigante --- */
+(function(){
+  const g = document.querySelector('.giant'); if (!g) return;
+  [...g.children].forEach((c,i) => c.style.setProperty('--i', i));
+  const o = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { g.classList.add('in'); o.disconnect(); } }), { threshold:.25 });
   o.observe(g);
 })();
 
-// scroll: nav che si nasconde, parallax hero, barra del processo
-let lastY=0, ticking=false;
+/* --- effetti legati allo scroll, un solo rAF per frame --- */
+let lastY = scrollY, ticking = false;
 function onScroll(){
-  const y=scrollY;
-  if(!nav.classList.contains('open')) nav.classList.toggle('hide', y>lastY && y>400);
-  lastY=y;
-  if(!RM){
-    const v=document.querySelector('.view.on');
-    const hb=v&&v.querySelector('.hero.ready .hero-bg'), hi=v&&v.querySelector('.hero-in');
-    if(hb && y<innerHeight*1.2){ hb.style.transform=`translate3d(0,${y*0.28}px,0) scale(1)`; hi.style.transform=`translate3d(0,${y*0.12}px,0)`; hi.style.opacity=Math.max(0,1-y/(innerHeight*0.7)); }
-    v && v.querySelectorAll('.steps').forEach(s=>{
-      const r=s.getBoundingClientRect(), p=Math.min(1,Math.max(0,(innerHeight*0.7-r.top)/r.height));
-      s.style.setProperty('--p',p.toFixed(3));
-      s.querySelectorAll('.step').forEach(st=>{ const t=st.getBoundingClientRect().top; st.classList.toggle('lit', t<innerHeight*0.72); });
-    });
-  }
-  ticking=false;
+  ticking = false;
+  const y = scrollY;
+  if (!nav.classList.contains('open') && Math.abs(y - lastY) > 4) { nav.classList.toggle('hide', y > lastY && y > 500); lastY = y; }
+  if (RM) return;
+  const v = document.querySelector('.view.on'); if (!v) return;
+  const par = v.querySelector('.hero-par');
+  if (par && y < innerHeight * 1.2) par.style.transform = `translate3d(0,${(y * 0.18).toFixed(1)}px,0)`;
+  v.querySelectorAll('.steps').forEach(s => {
+    const r = s.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight * 0.7 - r.top) / r.height));
+    s.style.setProperty('--p', p.toFixed(3));
+    s.querySelectorAll('.step').forEach(st => st.classList.toggle('lit', st.getBoundingClientRect().top < innerHeight * 0.72));
+  });
 }
-addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true});
-
-// cursore "Apri" che segue il mouse sulle card
-if(matchMedia('(hover:hover) and (pointer:fine)').matches && !RM){
-  const c=document.createElement('div'); c.className='cursor'; c.textContent='Apri'; c.setAttribute('aria-hidden','true'); document.body.appendChild(c);
-  let tx=-200,ty=-200,x=-200,y=-200;
-  addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; c.classList.toggle('on', !!e.target.closest('.card')); },{passive:true});
-  (function loop(){ x+=(tx-x)*0.2; y+=(ty-y)*0.2; c.style.setProperty('--x',x+'px'); c.style.setProperty('--y',y+'px'); requestAnimationFrame(loop); })();
-  const check=()=>{ const el=document.elementFromPoint(tx,ty); c.classList.toggle('on', !!(el&&el.closest('.card'))); };
-  addEventListener('scroll',()=>requestAnimationFrame(check),{passive:true});
-  addEventListener('hashchange',()=>c.classList.remove('on'));
-  document.addEventListener('mouseleave',()=>c.classList.remove('on'));
-}
-if(RM){ document.querySelectorAll('.steps .step').forEach(s=>s.classList.add('lit')); }
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive:true });
+if (RM) document.querySelectorAll('.steps .step').forEach(s => s.classList.add('lit'));
 
 go();
