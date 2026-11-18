@@ -97,7 +97,7 @@ function wireContact(root){
       if(!f.reportValidity()) return;
       const how=e.submitter && e.submitter.value;
       const url = how==='mail'
-        ? `mailto:${MAIL}?subject=${encodeURIComponent('Nuovo progetto — '+(new FormData(f).get('nome')||''))}&body=${encodeURIComponent(msg())}`
+        ? `mailto:${MAIL}?subject=${encodeURIComponent('Nuovo progetto: '+(new FormData(f).get('nome')||''))}&body=${encodeURIComponent(msg())}`
         : `https://wa.me/${WA}?text=${encodeURIComponent(msg())}`;
       const a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
       f.querySelector('.sent').hidden=false;
@@ -107,14 +107,14 @@ function wireContact(root){
 document.querySelectorAll('[data-slot="contact"]').forEach(wireContact);
 
 const VIEWS = ['home','progetti','servizi','processo','chi-siamo','contatti'];
-const TITLES = {home:'Leukos — La tua essenza, in ogni formato',progetti:'Progetti — Leukos',servizi:'Servizi — Leukos',processo:'Come funziona — Leukos','chi-siamo':'Chi siamo — Leukos',contatti:'Contatti — Leukos'};
+const TITLES = {home:'Leukos | La tua essenza, in ogni formato',progetti:'Progetti | Leukos',servizi:'Servizi | Leukos',processo:'Come funziona | Leukos','chi-siamo':'Chi siamo | Leukos',contatti:'Contatti | Leukos'};
 let io;
 function route(){
   const h = (location.hash||'#home').slice(1);
   let view = VIEWS.includes(h) ? h : 'home';
   if(h.startsWith('progetto-')){
     const p = PROJECTS.find(x=>'progetto-'+x.id===h);
-    if(p){ renderProject(p); view='progetto'; document.title = p.name+' — Leukos'; }
+    if(p){ renderProject(p); view='progetto'; document.title = p.name+' | Leukos'; }
   } else document.title = TITLES[view];
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on', v.dataset.view===view));
   document.querySelectorAll('[data-nav]').forEach(a=>{

@@ -1,4 +1,4 @@
-# Leukos — sito
+# Leukos, sito
 
 Sito statico di Leukos (HTML, CSS e JavaScript, nessun build).
 
