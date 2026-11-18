@@ -139,7 +139,9 @@ function route(){
     active ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current');
   });
   nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false');
+  nav.classList.remove('hide');
   window.scrollTo(0,0);
+  enhance();
   observe();
 }
 function observe(){
@@ -152,5 +154,92 @@ function observe(){
 const nav=document.getElementById('nav'), menuBtn=document.getElementById('menuBtn');
 menuBtn.addEventListener('click',()=>{const o=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',o)});
 addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>260),{passive:true});
-addEventListener('hashchange',route);
-route();
+
+/* ================= MOTION ================= */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const app = document.getElementById('app');
+
+// transizione tra pagine: esce, cambia vista, rientra
+let first = true;
+function go(){
+  if(first || RM){ first=false; route(); requestAnimationFrame(intro); return; }
+  app.classList.add('leaving');
+  setTimeout(()=>{
+    route();
+    app.classList.remove('leaving'); app.classList.add('entering');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ app.classList.remove('entering'); intro(); }));
+  }, 320);
+}
+addEventListener('hashchange',go);
+
+// prepara gli elementi della vista corrente (cascata, immagini, logotipo)
+function enhance(){
+  const v=document.querySelector('.view.on'); if(!v) return;
+  v.querySelectorAll('.grid,.svc,.gallery,.facts,.steps').forEach(g=>{
+    [...g.children].forEach((c,i)=>{ if(c.classList.contains('rv')) c.style.setProperty('--d',(i%4)*0.09+'s'); });
+  });
+  v.querySelectorAll('.svc li,.step,.fact').forEach((el,i)=>{ el.style.setProperty('--d',(i%6)*0.07+'s'); });
+  document.querySelectorAll('img:not(.fade)').forEach(img=>{
+    if(img.closest('.nav')||img.closest('footer')||img.classList.contains('chip-star')) return;
+    img.classList.add('fade');
+    const ok=()=>img.classList.add('ok');
+    img.complete && img.naturalWidth ? ok() : img.addEventListener('load',ok,{once:true});
+  });
+}
+
+// intro di hero e pagina progetto
+function intro(){
+  const v=document.querySelector('.view.on');
+  const hero=v && v.querySelector('.hero, .p-hero');
+  document.querySelectorAll('.hero-bg,.hero-in').forEach(e=>{e.style.transform='';e.style.opacity='';});
+  if(hero){ hero.classList.remove('ready'); void hero.offsetWidth; requestAnimationFrame(()=>hero.classList.add('ready')); }
+}
+
+// titolo hero diviso in righe che salgono
+(function(){
+  const h=document.querySelector('.hero h1'); if(!h) return;
+  h.innerHTML=h.innerHTML.split(/<br\s*\/?>/i).map((l,i)=>`<span class="line"><span style="--i:${i}">${l.trim()}</span></span>`).join('');
+})();
+
+// logotipo gigante del footer: lettera per lettera
+(function(){
+  const g=document.querySelector('.giant'); if(!g) return;
+  [...g.children].forEach((c,i)=>c.style.setProperty('--i',i));
+  const o=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ g.classList.add('in'); o.disconnect(); } }),{threshold:.3});
+  o.observe(g);
+})();
+
+// scroll: nav che si nasconde, parallax hero, barra del processo
+let lastY=0, ticking=false;
+function onScroll(){
+  const y=scrollY;
+  if(!nav.classList.contains('open')) nav.classList.toggle('hide', y>lastY && y>400);
+  lastY=y;
+  if(!RM){
+    const v=document.querySelector('.view.on');
+    const hb=v&&v.querySelector('.hero.ready .hero-bg'), hi=v&&v.querySelector('.hero-in');
+    if(hb && y<innerHeight*1.2){ hb.style.transform=`translate3d(0,${y*0.28}px,0) scale(1)`; hi.style.transform=`translate3d(0,${y*0.12}px,0)`; hi.style.opacity=Math.max(0,1-y/(innerHeight*0.7)); }
+    v && v.querySelectorAll('.steps').forEach(s=>{
+      const r=s.getBoundingClientRect(), p=Math.min(1,Math.max(0,(innerHeight*0.7-r.top)/r.height));
+      s.style.setProperty('--p',p.toFixed(3));
+      s.querySelectorAll('.step').forEach(st=>{ const t=st.getBoundingClientRect().top; st.classList.toggle('lit', t<innerHeight*0.72); });
+    });
+  }
+  ticking=false;
+}
+addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true});
+
+// cursore "Apri" che segue il mouse sulle card
+if(matchMedia('(hover:hover) and (pointer:fine)').matches && !RM){
+  const c=document.createElement('div'); c.className='cursor'; c.textContent='Apri'; c.setAttribute('aria-hidden','true'); document.body.appendChild(c);
+  let tx=-200,ty=-200,x=-200,y=-200;
+  addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; c.classList.toggle('on', !!e.target.closest('.card')); },{passive:true});
+  (function loop(){ x+=(tx-x)*0.2; y+=(ty-y)*0.2; c.style.setProperty('--x',x+'px'); c.style.setProperty('--y',y+'px'); requestAnimationFrame(loop); })();
+  const check=()=>{ const el=document.elementFromPoint(tx,ty); c.classList.toggle('on', !!(el&&el.closest('.card'))); };
+  addEventListener('scroll',()=>requestAnimationFrame(check),{passive:true});
+  addEventListener('hashchange',()=>c.classList.remove('on'));
+  document.addEventListener('mouseleave',()=>c.classList.remove('on'));
+}
+if(RM){ document.querySelectorAll('.steps .step').forEach(s=>s.classList.add('lit')); }
+
+go();

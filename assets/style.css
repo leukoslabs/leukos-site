@@ -178,9 +178,6 @@ footer{padding:var(--space-6) 0 0;overflow:hidden}
 .page-top p{color:rgba(255,255,255,.88);margin:0 auto;max-width:560px;font-size:19px}
 
 /* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.card img,.btn{transition:none}}
 
 /* ---------- responsive ---------- */
 @media (max-width:900px){
@@ -197,4 +194,120 @@ footer{padding:var(--space-6) 0 0;overflow:hidden}
   .nav.open ul{display:flex;flex-direction:column;align-items:stretch;width:100%;padding:8px 0 4px}
   .nav.open ul a{display:block;padding:12px}
   .nav.open .btn{display:inline-flex;width:100%;justify-content:center;margin-bottom:6px}
+}
+
+/* =====================================================================
+   MOTION — easing condivisi, ingressi, hover, transizioni di pagina
+   ===================================================================== */
+:root{--ease-out:cubic-bezier(.16,1,.3,1);--ease-io:cubic-bezier(.65,0,.35,1);--dur:.9s}
+
+/* ingressi allo scroll, con ritardo a cascata (--d impostato da JS) */
+.rv{opacity:0;transform:translateY(36px);filter:blur(6px);
+  transition:opacity 1s var(--ease-out),transform 1.1s var(--ease-out),filter 1s var(--ease-out);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none;filter:none}
+
+/* immagini: dissolvenza quando sono caricate */
+img.fade{opacity:0;transition:opacity .8s var(--ease-out)}
+img.fade.ok{opacity:1}
+
+/* transizione tra pagine */
+#app{transition:opacity .35s var(--ease-io),transform .45s var(--ease-out)}
+#app.leaving{opacity:0;transform:translateY(-10px)}
+#app.entering{opacity:0;transform:translateY(14px);transition:none}
+
+/* hero: intro al caricamento + parallax */
+.hero-bg{transform:scale(1.08);transition:transform 2.6s var(--ease-out);will-change:transform}
+.hero.ready .hero-bg{transform:scale(1)}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.hero h1 .line>span{display:inline-block;transform:translateY(105%);transition:transform 1.2s var(--ease-out);transition-delay:calc(.15s + var(--i,0)*.12s)}
+.hero.ready h1 .line>span{transform:none}
+.hero .sub,.hero .ctas,.scroll-hint{opacity:0;transform:translateY(16px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
+.hero .sub{transition-delay:.65s}.hero .ctas{transition-delay:.8s}.scroll-hint{transition-delay:1.2s}
+.hero.ready .sub,.hero.ready .ctas{opacity:1;transform:none}
+.hero.ready .scroll-hint{opacity:1;transform:translateX(-50%)}
+.scroll-hint{transform:translate(-50%,16px)}
+.scroll-hint::after{content:"";display:block;width:1px;height:28px;margin:8px auto 0;background:currentColor;transform-origin:top;animation:hint 2.2s var(--ease-io) infinite}
+@keyframes hint{0%{transform:scaleY(0)}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.hero-in{will-change:transform,opacity}
+
+/* nav: si nasconde scendendo, ricompare salendo */
+.nav{transition:background .4s var(--ease-out),transform .6s var(--ease-out),border-radius .4s var(--ease-out)}
+.nav.hide{transform:translate(-50%,-140%)}
+.nav ul a{transition:background .35s var(--ease-out),opacity .35s}
+.brand .star{transition:transform .8s var(--ease-out)}
+.brand:hover .star{transform:scale(1.15)}
+
+/* pulsanti */
+.btn{transition:transform .5s var(--ease-out),background .4s var(--ease-out),color .4s var(--ease-out),box-shadow .5s var(--ease-out),border-color .4s}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(0) scale(.98);transition-duration:.15s}
+.btn-primary:hover{box-shadow:0 14px 30px -10px rgba(228,110,42,.65)}
+.btn-ghost:hover{background:#fff;color:#111;border-color:#fff}
+.contact .btn-ghost:hover,.more .btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* card progetto */
+.card{transition:transform .8s var(--ease-out),box-shadow .8s var(--ease-out)}
+.card:hover{transform:translateY(-8px);box-shadow:0 46px 80px -30px rgba(0,0,0,.45)}
+.card img{transition:transform 1.4s var(--ease-out),opacity .8s var(--ease-out)}
+.card:hover img{transform:scale(1.06)}
+.card .txt{transition:transform .8s var(--ease-out)}
+.card:hover .txt{transform:translateY(-6px)}
+.card .go{transition:background .5s var(--ease-out),transform .7s var(--ease-out)}
+.card::after{transition:opacity .8s var(--ease-out)}
+.card:hover::after{opacity:.85}
+
+/* cursore "Apri" sulle card (solo mouse) */
+.cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;
+  background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:600;font-size:15px;letter-spacing:.02em;
+  transform:translate3d(var(--x,-200px),var(--y,-200px),0) scale(0);transition:transform .45s var(--ease-out);will-change:transform}
+.cursor.on{transform:translate3d(var(--x),var(--y),0) scale(1)}
+@media (hover:hover) and (pointer:fine){.card{cursor:none}.card .go{opacity:0}}
+
+/* servizi */
+.svc li{position:relative;transition:padding .6s var(--ease-out)}
+.svc li::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease-out)}
+.svc li:hover{padding-left:10px}
+.svc li:hover::after{transform:scaleX(1)}
+.svc h3,.svc .n{transition:color .5s var(--ease-out)}
+.svc li:hover h3{color:var(--orange-deep)}
+
+/* processo: la barra si riempie scorrendo */
+.steps::before{transform:scaleY(var(--p,0));transform-origin:top;transition:transform .2s linear}
+.step{transition:opacity .6s var(--ease-out)}
+.steps .step{opacity:.4}
+.steps .step.lit{opacity:1}
+
+/* stelle sopra i chip: respiro lento */
+.chip-star{animation:breathe 5s var(--ease-io) infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.chip{transition:background .4s,color .4s}
+
+/* contatti e link */
+.call{transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out)}
+.call:hover{transform:translateY(-4px);box-shadow:0 24px 40px -20px rgba(0,0,0,.5)}
+.foot nav a{position:relative;transition:color .3s}
+.foot nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease-out)}
+.foot nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.next .arrow{transition:transform .6s var(--ease-out),background .4s}
+.next:hover .arrow{transform:translateX(8px);background:var(--orange-deep)}
+.back{transition:opacity .3s,transform .5s var(--ease-out)}
+.back:hover{transform:translateX(-4px)}
+
+/* logotipo gigante: lettere che salgono */
+.giant>*{display:inline-block;transform:translateY(60%);opacity:0;transition:transform 1.3s var(--ease-out),opacity 1s var(--ease-out);transition-delay:calc(var(--i,0)*.07s)}
+.giant.in>*{transform:none;opacity:1}
+
+/* pagina progetto: hero */
+.p-hero img{transform:scale(1.06);transition:transform 2.2s var(--ease-out)}
+.p-hero.ready img{transform:scale(1)}
+.p-hero .wrap>*{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease-out),transform 1.1s var(--ease-out)}
+.p-hero .wrap>*:nth-child(2){transition-delay:.12s}.p-hero .wrap>*:nth-child(3){transition-delay:.22s}
+.p-hero.ready .wrap>*{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.hero h1 .line>span,.hero .sub,.hero .ctas,.giant>*,.p-hero .wrap>*,img.fade{opacity:1!important;transform:none!important;filter:none!important}
+  .scroll-hint{opacity:1;transform:translateX(-50%)}
+  .steps::before{transform:none}.steps .step{opacity:1}
+  .cursor{display:none}
 }
