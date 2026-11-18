@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import PageTop from '../components/PageTop.astro';
+import Contact from '../components/Contact.astro';
+const site = Astro.site;
+const jsonLd = [{ '@type': 'ContactPage', name: 'Contatti di Leukos', url: new URL('/contatti/', site).href, about: { '@id': new URL('/#leukos', site).href } }];
+---
+<Base title="Contatti | Leukos, studio creativo a Benevento" description="Scrivici su WhatsApp al +39 329 982 6583, per email a labsleukos@gmail.com o prenota una call conoscitiva di 30 minuti. Rispondiamo entro un giorno." current="contatti" jsonLd={jsonLd}>
+  <PageTop title="Contatti" lead="Scrivici su WhatsApp, per email o prenota una call." />
+  <section class="block"><div class="wrap"><Contact /></div></section>
+</Base>

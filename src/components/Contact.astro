@@ -1,0 +1,29 @@
+---
+import { SITE } from '../data/site.js';
+const { heading = 'h2' } = Astro.props;
+const H = heading;
+---
+<div class="contact rv">
+  <div class="eb">Entra in Leukos</div>
+  <H class="contact-title">Contattaci!</H>
+  <p>Raccontaci il progetto, ti rispondiamo entro un giorno.</p>
+  <div class="c-grid">
+    <form class="cform" novalidate action={`mailto:${SITE.email}`} method="post" enctype="text/plain">
+      <label><span>Nome</span><input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
+      <label><span>Di cosa hai bisogno?</span>
+        <select name="tipo"><option value="">Scegli…</option><option>Sito web</option><option>Brand identity</option><option>App / UI-UX</option><option>Video e reel</option><option>Gestione social</option><option>Riprese e regia</option><option>Altro</option></select>
+      </label>
+      <label class="wide"><span>Messaggio</span><textarea name="messaggio" rows="4" required placeholder="Due righe sul progetto, tempi e budget indicativo"></textarea></label>
+      <div class="f-actions">
+        <button class="btn btn-primary" type="submit" value="wa">Invia su WhatsApp</button>
+        <button class="btn btn-ghost" type="submit" value="mail">Invia per email</button>
+      </div>
+      <p class="sent" hidden role="status">Si è aperto WhatsApp o la tua app email con il messaggio pronto: premi Invia lì.</p>
+    </form>
+    <div class="c-direct">
+      <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener"><small>WhatsApp e telefono</small><strong>{SITE.phone}</strong></a>
+      <a href={`mailto:${SITE.email}`}><small>Email</small><strong>{SITE.email}</strong></a>
+      <a href={SITE.calendar} target="_blank" rel="noopener"><small>Call conoscitiva · 30 min · Google Meet</small><strong>Prenota un orario</strong></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTop from '../../components/PageTop.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Contact from '../../components/Contact.astro';
+import { PROJECTS, AREAS } from '../../data/projects.js';
+const site = Astro.site;
+const jsonLd = [{
+  '@type': 'CollectionPage', name: 'Progetti di Leukos', url: new URL('/progetti/', site).href,
+  mainEntity: { '@type': 'ItemList', itemListElement: PROJECTS.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(`/progetti/${p.id}/`, site).href, name: p.name })) },
+}];
+---
+<Base title="Progetti | Leukos, studio creativo a Benevento" description="Lavori di Leukos per clienti, startup e produzioni video: video editing per creator, siti web, contenuti social, brand identity e concept di app." current="progetti" jsonLd={jsonLd}>
+  <PageTop title="Progetti" lead="Clienti, startup, produzioni video e concept." />
+  <section class="block">
+    <div class="wrap">
+      <!-- i filtri funzionano con JavaScript: senza JS restano nascosti e si vedono tutti i progetti -->
+      <div class="filters" role="toolbar" aria-label="Filtra i progetti" hidden>
+        {AREAS.map(([k, l], i) => <button type="button" data-f={k} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
+        <span class="f-pill" aria-hidden="true"></span>
+      </div>
+      <p class="sr" aria-live="polite" id="filterStatus"></p>
+      <div class="grid" data-grid="all">
+        {PROJECTS.map((p, i) => <ProjectCard p={p} eager={i < 2} />)}
+      </div>
+    </div>
+  </section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Contact /></div></section>
+</Base>

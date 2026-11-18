@@ -3,12 +3,12 @@
    kind: 'cliente' | 'nostro' | 'startup' | 'produzione' | 'concept'  (badge sulla card)
    area: usata dai filtri della pagina Progetti: 'video' | 'web' | 'brand' | 'social'
    gallery: {src, alt, cls?, pos?, video?} : se `video` è indicato
-            (es. 'nikola-amici.webm' in assets/video/) parte in loop muto,
+            (es. 'nikola-amici.webm' in public/video/) parte in loop muto,
             altrimenti si vede l'immagine.
    links: [{label, href}] : collegamenti esterni al lavoro pubblicato
    stats: [{n, l}]        : numeri reali da mostrare (solo dati verificati)
    ===================================================================== */
-const PROJECTS = [
+export const PROJECTS = [
   {
     id:'nikola-greku', name:'Nikola Greku', kind:'cliente', area:['video','social'],
     cat:'Video editing · Reel e YouTube', color:'#ffb38a', cover:'nikola-cover.jpg', coverPos:'60% 40%',
@@ -149,5 +149,8 @@ const PROJECTS = [
   }
 ];
 
-const KIND_LABEL = {cliente:'Cliente', nostro:'Nostro brand', startup:'Startup', produzione:'Produzione', concept:'Concept'};
-const AREAS = [['tutti','Tutti'],['video','Video'],['web','Web e app'],['brand','Brand'],['social','Social']];
+export const KIND_LABEL = {cliente:'Cliente', nostro:'Nostro brand', startup:'Startup', produzione:'Produzione', concept:'Concept'};
+export const AREAS = [['tutti','Tutti'],['video','Video'],['web','Web e app'],['brand','Brand'],['social','Social']];
+
+/* progetti in evidenza nella home (il primo e l'ultimo occupano tutta la riga) */
+export const HOME_IDS = ['nikola-greku','gamepeople','petrillo','cloudyo','vestio','feedeat'];

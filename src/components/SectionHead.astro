@@ -1,0 +1,11 @@
+---
+/* intestazione di sezione: stella, chip, titolo (con <em>) e testo */
+const { chip, title, lead, tag = 'h2', class: cls = '' } = Astro.props;
+const Tag = tag;
+---
+<div class:list={['head', 'rv', cls]}>
+  <img class="chip-star" src="/brand/star.svg" alt="" width="84" height="84">
+  <span class="chip">{chip}</span>
+  <Tag class="title" set:html={title} />
+  {lead && <p class="lead">{lead}</p>}
+</div>

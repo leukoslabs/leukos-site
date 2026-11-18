@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import PageTop from '../components/PageTop.astro';
+import Services from '../components/Services.astro';
+import Contact from '../components/Contact.astro';
+import { SERVICES } from '../data/site.js';
+const site = Astro.site;
+const jsonLd = [{
+  '@type': 'ItemList', name: 'Servizi di Leukos',
+  itemListElement: SERVICES.map((s, i) => ({ '@type': 'ListItem', position: i + 1, item: { '@type': 'Service', name: s.name, description: s.text, provider: { '@id': new URL('/#leukos', site).href }, areaServed: 'IT' } })),
+}];
+---
+<Base title="Servizi | Leukos, studio creativo a Benevento" description="Brand identity, UI/UX, web design, comunicazione social, video editing, motion design, riprese e regia. Puoi affidarci un singolo lavoro o tutto il progetto." current="servizi" jsonLd={jsonLd}>
+  <PageTop title="Servizi" lead="Cosa facciamo, in concreto." />
+  <section class="block"><div class="wrap"><Services /></div></section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Contact /></div></section>
+</Base>

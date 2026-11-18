@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import Contact from '../../components/Contact.astro';
+import { Image } from 'astro:assets';
+import { img, plain } from '../../lib/img.js';
+import { PROJECTS, KIND_LABEL } from '../../data/projects.js';
+
+export function getStaticPaths() {
+  return PROJECTS.map((p, i) => ({ params: { id: p.id }, props: { p, next: PROJECTS[(i + 1) % PROJECTS.length] } }));
+}
+const { p, next } = Astro.props;
+const site = Astro.site;
+const url = new URL(`/progetti/${p.id}/`, site).href;
+const ARROW = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const desc = (() => { const t = plain(p.text[0]); return t.length > 158 ? t.slice(0, 155).replace(/\s+\S*$/, '') + '…' : t; })();
+const isOwn = p.kind === 'concept' || p.kind === 'nostro';
+const jsonLd = [
+  {
+    '@type': 'CreativeWork', '@id': url + '#lavoro', name: p.name, headline: plain(p.headline), description: plain(p.text.join(' ')),
+    url, inLanguage: 'it-IT', genre: p.cat, keywords: p.services.join(', '),
+    creator: { '@id': new URL('/#leukos', site).href },
+    ...(p.links ? { sameAs: p.links.map((l) => l.href) } : {}),
+  },
+  {
+    '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Progetti', item: new URL('/progetti/', site).href },
+      { '@type': 'ListItem', position: 3, name: p.name, item: url },
+    ],
+  },
+];
+---
+<Base title={`${p.name}: ${p.cat} | Leukos`} description={desc} current="progetti" image={img(p.cover)} imageAlt={p.gallery[0]?.alt || p.name} type="article" jsonLd={jsonLd}>
+  <section class="p-hero">
+    <Image src={img(p.cover)} alt="" widths={[640, 960, 1280, 1600, 1920]} sizes="100vw" priority style={`object-position:${p.coverPos}`} />
+    <div class="wrap">
+      <nav aria-label="Percorso"><a class="back" href="/progetti/">← Tutti i progetti</a></nav>
+      <div class="cat">{p.cat}</div>
+      <h1 style={`color:${p.color}`}>{p.name}</h1>
+    </div>
+  </section>
+  <section class="p-body">
+    <div class="wrap">
+      <div class="p-intro">
+        <aside class="p-meta rv"><dl>
+          <div><dt>{isOwn ? 'Progetto' : 'Cliente'}</dt><dd>{p.name} <span class={`kind kind-${p.kind} inline`}>{KIND_LABEL[p.kind]}</span></dd></div>
+          <div><dt>Settore</dt><dd>{p.sector}</dd></div>
+          <div><dt>Cosa abbiamo fatto</dt><dd>{p.services.map((s, i) => <Fragment>{i > 0 && <br />}{s}</Fragment>)}</dd></div>
+          {p.links && <div><dt>Guarda il lavoro</dt><dd class="links">{p.links.map((l) => <a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)}</dd></div>}
+        </dl></aside>
+        <div class="p-text rv">
+          <h2 set:html={p.headline} />
+          {p.text.map((t) => <p set:html={t} />)}
+        </div>
+      </div>
+      {p.stats && (
+        <div class="stats rv">
+          {p.stats.map((s) => <div><b>{s.n}</b><span>{s.l}</span></div>)}
+          <small>{p.statsNote}</small>
+        </div>
+      )}
+      <div class="gallery">
+        {p.gallery.map((g) => (
+          <figure class:list={['rv', g.cls]}>
+            {g.video && <video muted loop playsinline preload="none" aria-label={g.alt} data-src={`/video/${g.video}`}></video>}
+            <Image src={img(g.src)} alt={g.alt} loading="lazy"
+              widths={g.cls?.includes('full') ? [640, 960, 1280, 1800] : [480, 720, 960, 1200]}
+              sizes={g.cls?.includes('full') ? '(max-width: 1240px) calc(100vw - 48px), 1152px' : '(max-width: 900px) calc(100vw - 48px), 576px'}
+              style={g.pos ? `object-position:${g.pos}` : undefined} />
+          </figure>
+        ))}
+      </div>
+      <a class="next" href={`/progetti/${next.id}/`}>
+        <span><small>Prossimo progetto</small><strong>{next.name}</strong></span>
+        <Image class="next-thumb" src={img(next.cover)} alt="" widths={[400]} sizes="200px" loading="lazy" style={`object-position:${next.coverPos}`} />
+        <span class="arrow" set:html={ARROW} />
+      </a>
+    </div>
+  </section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Contact /></div></section>
+</Base>

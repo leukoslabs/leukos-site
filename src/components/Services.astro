@@ -1,0 +1,16 @@
+---
+import { SERVICES } from '../data/site.js';
+const { heading = 'h2' } = Astro.props;
+const H = heading;
+---
+<div class="services">
+  <div class="rv">
+    <span class="eyebrow">Servizi</span>
+    <H class="svc-title">Offriamo un servizio su misura, per farti brillare.</H>
+    <p>Lavoriamo step-by-step al tuo fianco per garantire la massima qualità e attenzione al dettaglio. Puoi affidarci un singolo lavoro o tutto il progetto.</p>
+    <a class="btn btn-primary" href="/contatti/" style="margin-top:8px">Parliamone</a>
+  </div>
+  <ul class="svc rv">
+    {SERVICES.map((s) => <li><span class="n" aria-hidden="true">{s.n}</span><div><h3>{s.name}</h3><p>{s.text}</p></div></li>)}
+  </ul>
+</div>

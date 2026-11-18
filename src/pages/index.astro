@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Contact from '../components/Contact.astro';
+import { Image } from 'astro:assets';
+import { img } from '../lib/img.js';
+import { PROJECTS, HOME_IDS } from '../data/projects.js';
+
+const list = HOME_IDS.map((id) => PROJECTS.find((p) => p.id === id));
+const marquee = ['Brand identity', 'UI/UX', 'Web design', 'Comunicazione', 'Video editing', 'Motion design', 'Riprese e regia'];
+---
+<Base
+  title="Leukos | Studio creativo a Benevento: siti, app, brand e video"
+  description="Studio creativo a Benevento: brand identity, siti web, app, contenuti social, video editing e motion design. Li progettiamo e realizziamo noi, dall'idea alla consegna."
+>
+  <!-- i vecchi indirizzi con # (es. /#progetto-freshy) portano alle pagine nuove -->
+  <script is:inline slot="head">
+    (function(){var h=location.hash,m={'#progetti':'/progetti/','#servizi':'/servizi/','#processo':'/come-funziona/','#chi-siamo':'/chi-siamo/','#contatti':'/contatti/'};
+    if(m[h])location.replace(m[h]);else if(h.indexOf('#progetto-')===0)location.replace('/progetti/'+h.slice(10)+'/');})();
+  </script>
+
+  <section class="hero">
+    <div class="hero-par"><Image class="hero-bg" src={img('hero.jpg')} alt="" widths={[640, 960, 1280, 1600, 1920]} sizes="100vw" priority /></div>
+    <div class="hero-in">
+      <h1>
+        <span class="line"><span style="--i:0">La tua <em>essenza</em>, in</span></span>
+        <span class="line"><span style="--i:1">ogni formato.</span></span>
+        <span class="line"><span style="--i:2"><span class="wm"><b>L</b><i>e</i><b>u</b><i>k</i><b>o</b><i>s</i></span>.</span></span>
+      </h1>
+      <p class="sub">Studio creativo a Benevento: siti, app, brand e video.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="/contatti/">Inizia ora</a>
+        <a class="btn btn-ghost" href="/progetti/">Guarda i progetti</a>
+      </div>
+    </div>
+    <span class="scroll-hint" aria-hidden="true">Scorri</span>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      {[0, 1, 2].map(() => (
+        <div class="mq-group">{marquee.map((t, i) => <Fragment><span class={i % 2 ? 'alt' : undefined}>{t}</span><img src="/brand/star.svg" alt="" width="48" height="48" /></Fragment>)}</div>
+      ))}
+    </div>
+  </div>
+
+  <section class="block manifesto">
+    <div class="wrap">
+      <SectionHead chip="Come lavoriamo" title="Diamo <em>forma</em> alle <em>emozioni</em>, le rendiamo <em>digitali</em>, le facciamo parlare." lead="Siti, app, identità visive, reel e video. Li progettiamo e li realizziamo noi, dall'idea alla consegna." />
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <SectionHead chip="Progetti" title="Lavori <em>selezionati</em>" lead="Alcuni lavori fatti per clienti, startup e per il nostro brand." />
+      <div class="grid">
+        {list.map((p, i) => <ProjectCard p={p} wide={i === 0 || i === list.length - 1} />)}
+      </div>
+      <div class="more rv"><a class="btn btn-ghost" href="/progetti/">Tutti i progetti</a></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0"><div class="wrap"><Services /></div></section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Process /></div></section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Contact /></div></section>
+</Base>

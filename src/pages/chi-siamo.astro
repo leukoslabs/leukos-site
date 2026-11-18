@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import PageTop from '../components/PageTop.astro';
+import Contact from '../components/Contact.astro';
+import { Image, getImage } from 'astro:assets';
+import { img, plain } from '../lib/img.js';
+import { TEAM } from '../data/site.js';
+const site = Astro.site;
+const jsonLd = await Promise.all(TEAM.map(async (t) => ({
+  '@type': 'Person', '@id': new URL(`/chi-siamo/#${t.id}`, site).href, name: t.name, jobTitle: t.jobTitle,
+  description: plain(t.bio), worksFor: { '@id': new URL('/#leukos', site).href },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Università di Camerino' },
+  sameAs: t.links.map((l) => l.href),
+  ...(t.photo ? { image: new URL((await getImage({ src: img(t.photo), width: 600, format: 'jpg' })).src, site).href } : {}),
+})));
+---
+<Base title="Chi siamo | Leukos, studio creativo a Benevento" description="Leukos sono Antonio Pennino, video editor, e Mariano Iscaro, product designer: due co-founder a Benevento che progettano e realizzano brand, siti, app e video." current="chi-siamo" jsonLd={jsonLd}>
+  <PageTop title="Chi siamo" lead="Due co-founder, a Benevento." />
+  <section class="block">
+    <div class="wrap about">
+      <h2 class="big rv">Siamo <em>in due</em>. Un video editor e un product designer: progettiamo e realizziamo noi brand, siti, app e video.</h2>
+      <div class="rv">
+        <p class="about-text">Leukos nasce a Benevento dall'incontro tra un video editor e un product designer: abbiamo studiato entrambi Informatica per la Comunicazione Digitale a Camerino e lavorato insieme in FeedEat. Lavoriamo con pochi clienti alla volta e seguiamo ogni progetto direttamente.</p>
+        <div class="facts">
+          <div class="fact"><b>2020</b><span>montiamo video per creator, brand e professionisti</span></div>
+          <div class="fact"><b>2</b><span>co-founder, un solo team dall'idea alla consegna</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap team">
+      {TEAM.map((t) => (
+        <article class="person rv" id={t.id}>
+          {t.photo
+            ? <Image src={img(t.photo)} alt={t.photoAlt} widths={[360, 540, 720]} sizes="(max-width: 560px) calc(100vw - 96px), 180px" loading="lazy" />
+            : <div class="ph"><img src="/brand/star.svg" alt="" width="72" height="72" /><span>Foto in arrivo</span></div>}
+          <div>
+            <span class="role">{t.role}</span>
+            <h3>{t.name}</h3>
+            <p set:html={t.bio} />
+            <span class="person-links">{t.links.map((l) => <a class="more-link" href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="block" style="padding-top:0"><div class="wrap"><Contact /></div></section>
+</Base>

@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import { img } from '../lib/img.js';
+import { KIND_LABEL } from '../data/projects.js';
+const { p, wide = false, eager = false } = Astro.props;
+const ARROW = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+---
+<a class:list={['card', 'rv', { wide }]} href={`/progetti/${p.id}/`} data-area={p.area.join(' ')}>
+  <Image src={img(p.cover)} alt="" widths={wide ? [640, 960, 1280, 1800] : [480, 720, 960, 1200]}
+    sizes={wide ? '(max-width: 1240px) calc(100vw - 48px), 1152px' : '(max-width: 900px) calc(100vw - 48px), 576px'}
+    style={`object-position:${p.coverPos}`} loading={eager ? 'eager' : 'lazy'} />
+  <span class="glow" aria-hidden="true"></span>
+  <span class={`kind kind-${p.kind}`}>{KIND_LABEL[p.kind]}</span>
+  <span class="go" set:html={ARROW} />
+  <span class="txt"><span class="cat">{p.cat}</span><h3 class="name" style={`color:${p.color}`}>{p.name}</h3><span class="see" aria-hidden="true">Guarda il progetto</span></span>
+</a>

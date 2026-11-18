@@ -1,45 +1,59 @@
 # Leukos, sito
 
-Sito statico di Leukos (HTML, CSS e JavaScript, nessun build).
+Sito di Leukos fatto con [Astro](https://astro.build): ogni pagina è un vero file HTML statico (ottimo per Google e per gli assistenti AI), con immagini ottimizzate e solo ~10 kB di JavaScript per animazioni e interazioni.
+
+## Comandi
+
+Serve Node.js 22.23 o successivo.
+
+```
+npm install        # la prima volta
+npm run dev        # sviluppo su http://localhost:4321
+npm run build      # crea il sito finale in dist/
+npm run preview    # prova in locale la versione finale
+```
 
 ## Struttura
 
 ```
-index.html            pagine: home, progetti, servizi, come funziona, chi siamo, contatti
-assets/style.css      stili (variabili del design system Leukos in :root)
-assets/projects.js    dati dei progetti (array PROJECTS): testi, immagini, link, numeri
-assets/main.js        routing, animazioni, modulo contatti
-assets/video/         clip in loop dei progetti video (vedi README dentro)
-assets/img/           immagini di hero, processo e progetti
-assets/brand/          stella, icona app (favicon) e apple-touch-icon
+src/pages/              una pagina per file: index, servizi, come-funziona, chi-siamo, contatti, 404
+src/pages/progetti/     elenco progetti e pagina di ogni progetto ([id].astro, generata dai dati)
+src/pages/llms.txt.js   riassunto testuale per gli assistenti AI (/llms.txt)
+src/pages/robots.txt.js robots.txt con il link alla sitemap
+src/layouts/Base.astro  <head> (SEO, anteprime social, dati strutturati), nav, footer
+src/components/         card progetto, servizi, processo, contatti, intestazioni
+src/data/projects.js    dati dei progetti (istruzioni in cima al file)
+src/data/site.js        contatti, P.IVA, servizi, team
+src/styles/global.css   stili e animazioni (variabili del design system in :root)
+src/scripts/motion.js   animazioni, filtri, menu mobile, modulo contatti
+src/assets/img/         immagini (Astro le converte in webp in più misure)
+public/brand/           stella, icona, apple-touch-icon
+public/video/           clip in loop dei progetti (webm + mp4)
+public/_headers         cache e intestazioni di sicurezza (Cloudflare Pages, Netlify)
 ```
 
-Le pagine usano gli hash (`#progetti`, `#progetto-freshy`, …), quindi funziona su qualsiasi hosting statico.
+Indirizzi: `/progetti/`, `/progetti/nikola-greku/`, `/servizi/`, `/come-funziona/`, `/chi-siamo/`, `/contatti/`. I vecchi link con `#` (es. `/#progetto-freshy`) portano alle pagine nuove.
 
 ## Aggiungere o modificare un progetto
 
-In `assets/projects.js` modifica l'array `PROJECTS` (le istruzioni sono in cima al file). `kind` decide il badge (Cliente, Startup, Produzione, Concept), `area` i filtri. Metti le immagini in `assets/img/` e i clip in `assets/video/`.
-
-## Modulo contatti
-
-Non serve un server: il modulo prepara il messaggio e lo apre su WhatsApp (+39 329 982 6583) o nell'app email (labsleukos@gmail.com). Numero ed email sono in cima alla funzione `wireContact` in `assets/main.js`.
-
-## Vederlo in locale
-
-```
-npx serve .
-```
-oppure apri `index.html` nel browser.
+In `src/data/projects.js` modifica l'array `PROJECTS`: `kind` decide il badge, `area` i filtri. Metti le immagini in `src/assets/img/` e i clip in `public/video/` (stesso nome in `.webm` e `.mp4`). La pagina del progetto, la sitemap e `llms.txt` si aggiornano da sole alla build.
 
 ## Metterlo online
 
-Hosting statico (Vercel, Netlify, GitHub Pages, Cloudflare Pages): nessun comando di build, cartella di output = radice del repo. Poi collega il dominio dal pannello dell'hosting.
+Hosting statico (Cloudflare Pages, Netlify o Vercel):
+
+- comando di build: `npm run build`
+- cartella di output: `dist`
+- variabile d'ambiente **`SITE_URL`** = il dominio definitivo (es. `https://leukos.it`). Serve per URL canonici, sitemap e anteprime social: se manca, la build usa `https://leukos.it` e lo segnala.
+
+Dopo la pubblicazione: aggiungi il sito a Google Search Console e invia `/sitemap-index.xml`.
 
 ## Da completare
 
-- Sostituire le immagini con i file originali in alta risoluzione (quelle attuali sono catture a ~1600px dalla bozza Framer).
-- Logotipo "Leukos" vettoriale (la stella è già quella ufficiale; il testo è ancora composto con i font).
-- Profili social di Leukos (Instagram, TikTok, Behance).
-- Foto di Mariano Iscaro (in `assets/img/`, poi sostituire il riquadro "Foto in arrivo" in `index.html`).
-- Copiare i clip webm in `assets/video/`.
-- Pagine Privacy Policy e Cookie Policy.
+- Dominio definitivo (vedi `SITE_URL`).
+- Immagini originali in alta risoluzione (le attuali sono catture a ~1600px).
+- Logotipo "Leukos" vettoriale.
+- Profili social di Leukos (vanno anche in `sameAs` nei dati strutturati in `Base.astro`).
+- Foto di Mariano Iscaro (`photo` in `src/data/site.js`).
+- Pagine Privacy e Cookie Policy (oggi il sito non usa cookie né servizi esterni: i font sono ospitati sul sito).
+- Profilo Google Business (indirizzo, orari, recensioni) per le ricerche locali a Benevento.
