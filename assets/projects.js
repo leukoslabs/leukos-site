@@ -87,12 +87,12 @@ const PROJECTS = [
   {
     id:'feedeat', name:'FeedEat', kind:'startup', area:['brand','video','social'],
     cat:'Branding – Marketing – Video', color:'#ffc7c4', cover:'feedeat-team.jpg', coverPos:'40% 40%',
-    services:['Brand identity e mascotte','Marketing (2022–2024)','Video di presentazione e intervista'],
+    services:['UI/UX e web design','Brand identity e mascotte','Marketing (2022–2024)','Video di presentazione e intervista'],
     sector:'Startup · Food',
     headline:'Una startup nata <em>tra i banchi di scuola</em>.',
     text:[
-      'FeedEat è il progetto dove abbiamo cominciato: una startup food nata tra i banchi di scuola, che abbiamo seguito dall\'interno dal 2022 al 2024.',
-      'Ce ne siamo occupati a 360 gradi: l\'identità con la sua mascotte, declinata anche in icona 3D, il marketing e i video, dalla presentazione del progetto all\'intervista al team. È stata la nostra palestra: lì abbiamo imparato a costruire un brand da zero e a raccontarlo ogni giorno. La nostra collaborazione si è chiusa nel 2024.'
+      'FeedEat è il progetto dove abbiamo cominciato: una startup food nata tra i banchi di scuola, che abbiamo seguito dall\'interno dal 2021 al 2024.',
+      'Ce ne siamo occupati a 360 gradi: UI/UX e sito, l\'identità con la sua mascotte, declinata anche in icona 3D, il marketing e i video, dalla presentazione del progetto all\'intervista al team. È stata la nostra palestra: lì abbiamo imparato a costruire un brand da zero e a raccontarlo ogni giorno. La nostra collaborazione si è chiusa nel 2024.'
     ],
     gallery:[
       {src:'feedeat-team.jpg',cls:'full',alt:'Un fotogramma del video FeedEat girato in un ristorante'},

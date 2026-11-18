@@ -404,3 +404,5 @@ img.fade.ok{opacity:1}
   .cform{grid-template-columns:1fr}
   .kind{top:16px;left:16px}
 }
+
+.person-links{display:flex;flex-wrap:wrap;gap:6px 16px}
