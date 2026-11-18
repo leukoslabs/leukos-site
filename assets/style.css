@@ -311,3 +311,7 @@ img.fade.ok{opacity:1}
   .steps::before{transform:none}.steps .step{opacity:1}
   .cursor{display:none}
 }
+
+/* aree di tocco ≥ 44px */
+.brand{min-height:44px}
+.back{padding:10px 0;min-height:44px}
