@@ -9,7 +9,7 @@ index.html            pagine: home, progetti, servizi, come funziona, chi siamo,
 assets/style.css      stili (variabili del design system Leukos in :root)
 assets/main.js        dati dei progetti (array PROJECTS) e routing
 assets/img/           immagini di hero, processo e progetti
-assets/favicon.svg
+assets/brand/          stella, icona app (favicon) e apple-touch-icon
 ```
 
 Le pagine usano gli hash (`#progetti`, `#progetto-freshy`, …), quindi funziona su qualsiasi hosting statico.
@@ -32,6 +32,6 @@ Hosting statico (Vercel, Netlify, GitHub Pages, Cloudflare Pages): nessun comand
 ## Da completare
 
 - Sostituire le immagini con i file originali in alta risoluzione (quelle attuali sono catture a ~1600px dalla bozza Framer).
-- Logo vettoriale ufficiale (oggi il logotipo è composto con i font).
+- Logotipo "Leukos" vettoriale (la stella è già quella ufficiale; il testo è ancora composto con i font).
 - Icone social e link (Instagram, TikTok, Behance), email di contatto.
 - Pagine Privacy Policy e Cookie Policy.

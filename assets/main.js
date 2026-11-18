@@ -84,11 +84,6 @@ document.querySelectorAll('[data-grid]').forEach(g=>{
   const t=document.getElementById('tpl-'+k);
   document.querySelectorAll(`[data-slot="${k}"]`).forEach(s=>s.appendChild(t.content.cloneNode(true)));
 });
-// rays above chips
-document.querySelectorAll('.rays g').forEach(g=>{
-  let h='';for(let i=0;i<=12;i++){const a=Math.PI*(i/12);const x1=37+Math.cos(a)*14,y1=36-Math.sin(a)*14,x2=37+Math.cos(a)*34,y2=36-Math.sin(a)*34;h+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`}
-  g.innerHTML=h;
-});
 
 function renderProject(p){
   const i = PROJECTS.indexOf(p), n = PROJECTS[(i+1)%PROJECTS.length];
