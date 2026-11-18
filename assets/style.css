@@ -321,6 +321,7 @@ img.fade.ok{opacity:1}
   padding:6px 12px;border-radius:var(--radius-pill);background:rgba(255,255,255,.9);color:#111}
 .kind-concept{background:rgba(20,20,20,.55);color:#fff;border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px)}
 .kind-startup{background:#ffe9dc;color:var(--brown)}
+.kind-nostro{background:var(--orange-deep);color:#fff}
 .kind-produzione{background:#f3e9ff;color:#3f2a5c}
 .kind.inline{position:static;display:inline-block;margin-left:6px;font-size:11px;padding:3px 9px;vertical-align:middle;border-color:var(--line)}
 .kind-concept.inline{background:#111}

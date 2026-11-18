@@ -1,6 +1,6 @@
 /* =====================================================================
    PROGETTI LEUKOS
-   kind: 'cliente' | 'startup' | 'produzione' | 'concept'  (badge sulla card)
+   kind: 'cliente' | 'nostro' | 'startup' | 'produzione' | 'concept'  (badge sulla card)
    area: usata dai filtri della pagina Progetti — 'video' | 'web' | 'brand' | 'social'
    gallery: {src, alt, cls?, pos?, video?}  — se `video` è indicato
             (es. 'nikola-amici.webm' in assets/video/) parte in loop muto,
@@ -60,14 +60,14 @@ const PROJECTS = [
     ]
   },
   {
-    id:'cloudyo', name:'Cloudyo', kind:'cliente', area:['video','social'],
-    cat:'Video – TikTok', color:'#ffffff', cover:'cloudyo-cover.jpg', coverPos:'50% 40%',
-    services:['Montaggio video TikTok'],
-    sector:'Brand di abbigliamento',
+    id:'cloudyo', name:'Cloudyo', kind:'nostro', area:['video','social','brand'],
+    cat:'Il nostro brand – Video TikTok', color:'#ffffff', cover:'cloudyo-cover.jpg', coverPos:'50% 40%',
+    services:['Contenuti e video TikTok','Montaggio'],
+    sector:'Nostro brand · T-shirt grafiche',
     headline:'Sogni, ambizione, <em>stile</em>.',
     text:[
-      'Cloudyo è un brand italiano di t-shirt grafiche dedicato ai sogni e all\'ambizione. Per il suo profilo TikTok montiamo una serie di video ispirazionali: Vision, Style, Dreams, Impact.',
-      'Immagini evocative e un ritmo calmo che lascia respirare il messaggio: "be your dream", "follow your dreams".'
+      'Cloudyo è il nostro brand di t-shirt grafiche, dedicato ai sogni e all\'ambizione.',
+      'Per il profilo TikTok realizziamo una serie di video ispirazionali, Vision, Style, Dreams e Impact: immagini evocative e un ritmo calmo che lascia respirare il messaggio, "be your dream", "follow your dreams".'
     ],
     links:[{label:'Video "Vision"',href:'https://www.tiktok.com/@cloudyo_official/video/7573725753976622358'},{label:'Video "Dreams"',href:'https://www.tiktok.com/@cloudyo_official/video/7574765694856793366'},{label:'Sito Cloudyo',href:'https://www.cloudyo.me/'}],
     gallery:[{src:'cloudyo-cover.jpg',cls:'full',alt:'Tre fotogrammi verticali dei video Cloudyo'}]
@@ -151,5 +151,5 @@ const PROJECTS = [
   }
 ];
 
-const KIND_LABEL = {cliente:'Cliente', startup:'Startup', produzione:'Produzione', concept:'Concept'};
+const KIND_LABEL = {cliente:'Cliente', nostro:'Nostro brand', startup:'Startup', produzione:'Produzione', concept:'Concept'};
 const AREAS = [['tutti','Tutti'],['video','Video'],['web','Web e app'],['brand','Brand'],['social','Social']];

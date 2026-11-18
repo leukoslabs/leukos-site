@@ -50,7 +50,7 @@ function renderProject(p){
       <div class="wrap">
         <div class="p-intro">
           <aside class="p-meta rv"><dl>
-            <div><dt>${p.kind==='concept'?'Progetto':'Cliente'}</dt><dd>${p.name} <span class="kind kind-${p.kind} inline">${KIND_LABEL[p.kind]}</span></dd></div>
+            <div><dt>${p.kind==='concept'||p.kind==='nostro'?'Progetto':'Cliente'}</dt><dd>${p.name} <span class="kind kind-${p.kind} inline">${KIND_LABEL[p.kind]}</span></dd></div>
             <div><dt>Settore</dt><dd>${p.sector}</dd></div>
             <div><dt>Cosa abbiamo fatto</dt><dd>${p.services.join('<br>')}</dd></div>
             ${p.links?`<div><dt>Guarda il lavoro</dt><dd class="links">${p.links.map(l=>`<a href="${l.href}" target="_blank" rel="noopener">${l.label} ↗</a>`).join('')}</dd></div>`:''}
