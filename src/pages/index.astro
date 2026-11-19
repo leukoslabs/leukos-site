@@ -5,8 +5,6 @@ import ProjectCard from '../components/ProjectCard.astro';
 import Services from '../components/Services.astro';
 import Process from '../components/Process.astro';
 import Contact from '../components/Contact.astro';
-import { Image } from 'astro:assets';
-import { img } from '../lib/img.js';
 import { PROJECTS, HOME_IDS } from '../data/projects.js';
 
 const list = HOME_IDS.map((id) => PROJECTS.find((p) => p.id === id));
@@ -23,7 +21,7 @@ const marquee = ['Brand identity', 'UI/UX', 'Web design', 'Comunicazione', 'Vide
   </script>
 
   <section class="hero">
-    <div class="hero-par"><Image class="hero-bg" src={img('hero-sky.jpg')} alt="" widths={[640, 960, 1280, 1600, 1920]} sizes="100vw" priority /></div>
+    <div class="hero-par" aria-hidden="true"></div>
     <div class="hero-in">
       <h1>
         <span class="line"><span style="--i:0">La tua <em>essenza</em>, in</span></span>
@@ -37,7 +35,7 @@ const marquee = ['Brand identity', 'UI/UX', 'Web design', 'Comunicazione', 'Vide
       </div>
     </div>
     <!-- la luce sta sempre sotto i pulsanti, a qualunque dimensione dello schermo -->
-    <div class="hero-light" aria-hidden="true"><span class="bulb"></span><span class="pole"></span><span class="scroll-hint">Scorri</span></div>
+    <div class="hero-light" aria-hidden="true"><span class="bulb"></span><span class="pole"></span></div>
   </section>
 
   <div class="marquee" aria-hidden="true">
