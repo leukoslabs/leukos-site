@@ -16,7 +16,7 @@ npm run preview    # prova in locale la versione finale
 ## Struttura
 
 ```
-src/pages/              una pagina per file: index, servizi, come-funziona, chi-siamo, contatti, 404
+src/pages/              una pagina per file: index, servizi, come-funziona, chi-siamo, contatti, privacy, cookie, 404
 src/pages/progetti/     elenco progetti e pagina di ogni progetto ([id].astro, generata dai dati)
 src/pages/llms.txt.js   riassunto testuale per gli assistenti AI (/llms.txt)
 src/pages/robots.txt.js robots.txt con il link alla sitemap
@@ -32,7 +32,7 @@ public/video/           clip in loop dei progetti (webm + mp4)
 public/_headers         cache e intestazioni di sicurezza (Cloudflare Pages, Netlify)
 ```
 
-Indirizzi: `/progetti/`, `/progetti/nikola-greku/`, `/servizi/`, `/come-funziona/`, `/chi-siamo/`, `/contatti/`. I vecchi link con `#` (es. `/#progetto-freshy`) portano alle pagine nuove.
+Indirizzi: `/progetti/`, `/progetti/nikola-greku/`, `/servizi/`, `/come-funziona/`, `/chi-siamo/`, `/contatti/`, `/privacy/`, `/cookie/`. I vecchi link con `#` (es. `/#progetto-freshy`) portano alle pagine nuove.
 
 ## Aggiungere o modificare un progetto
 
@@ -48,12 +48,14 @@ Hosting statico (Cloudflare Pages, Netlify o Vercel):
 
 Dopo la pubblicazione: aggiungi il sito a Google Search Console e invia `/sitemap-index.xml`.
 
+## Privacy e cookie
+
+Le pagine `/privacy/` e `/cookie/` descrivono il sito com'è oggi: nessuna statistica, nessun cookie, nessun contenuto incorporato da terzi, modulo che apre WhatsApp o l'email. Se aggiungi statistiche (es. Google Analytics), mappe o video incorporati (YouTube), vanno aggiornate e serve un banner di consenso.
+
 ## Da completare
 
-- Dominio definitivo (vedi `SITE_URL`).
 - Immagini originali in alta risoluzione (le attuali sono catture a ~1600px).
 - Logotipo "Leukos" vettoriale.
 - Profili social di Leukos (vanno anche in `sameAs` nei dati strutturati in `Base.astro`).
 - Foto di Mariano Iscaro (`photo` in `src/data/site.js`).
-- Pagine Privacy e Cookie Policy (oggi il sito non usa cookie né servizi esterni: i font sono ospitati sul sito).
 - Profilo Google Business (indirizzo, orari, recensioni) per le ricerche locali a Benevento.

@@ -1,0 +1,42 @@
+---
+/* Informativa privacy (art. 13 GDPR). Se cambiano servizi usati o modi di contatto, aggiorna il testo e la data. */
+import Base from '../layouts/Base.astro';
+import PageTop from '../components/PageTop.astro';
+import { SITE } from '../data/site.js';
+const UPDATED = '19 novembre 2026';
+---
+<Base title="Privacy | Leukos" description="Come Leukos tratta i dati di chi visita il sito e di chi ci contatta: quali dati, perché, per quanto tempo e quali sono i tuoi diritti." current="privacy">
+  <PageTop title="Privacy" lead="Quali dati trattiamo e perché, in parole semplici." />
+  <section class="block">
+    <div class="wrap legal">
+      <p class="updated">Ultimo aggiornamento: {UPDATED}</p>
+
+      <h2>Chi tratta i dati</h2>
+      <p>Il titolare del trattamento è <strong>{SITE.vatHolder}</strong>, P.IVA {SITE.vat}, {SITE.city} (Italia), che lavora con il nome Leukos. Per qualsiasi domanda sui tuoi dati scrivi a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+      <h2>Quali dati trattiamo</h2>
+      <p><strong>Quando visiti il sito.</strong> Il sito è fatto di pagine statiche: non usa strumenti di statistica, pubblicità o profilazione e non salva nulla sul tuo dispositivo. Font, immagini e video sono ospitati sul sito stesso. Il fornitore di hosting, Cloudflare, tratta i dati tecnici necessari per mostrarti le pagine e proteggere il sito da abusi (ad esempio indirizzo IP, tipo di browser, data e ora della richiesta).</p>
+      <p><strong>Quando ci contatti.</strong> Il modulo nella pagina Contatti non invia dati a un nostro server: prepara il messaggio e lo apre nella tua app WhatsApp o email, da cui lo invii tu. Riceviamo quindi i dati che scegli di mandarci (nome, numero di telefono o email, testo del messaggio) attraverso WhatsApp o la nostra casella email. Se prenoti una call, la prenotazione passa da Cal.com e la chiamata avviene su Google Meet.</p>
+
+      <h2>Perché li usiamo</h2>
+      <ul>
+        <li>Per risponderti e preparare un preventivo: il trattamento serve a dare seguito a una tua richiesta (art. 6.1.b GDPR).</li>
+        <li>Se diventi cliente, per gestire il lavoro, la fatturazione e gli obblighi di legge (art. 6.1.b e 6.1.c GDPR).</li>
+        <li>Per la sicurezza del sito: è un nostro legittimo interesse (art. 6.1.f GDPR).</li>
+      </ul>
+      <p>Non usiamo i tuoi dati per pubblicità, non li vendiamo e non li cediamo a nessuno.</p>
+
+      <h2>Per quanto tempo</h2>
+      <p>Conserviamo i messaggi per il tempo necessario a risponderti e a seguire l'eventuale collaborazione. Se non nasce una collaborazione, li cancelliamo entro 12 mesi dall'ultimo contatto. I dati delle fatture si conservano per 10 anni, come chiede la legge.</p>
+
+      <h2>Chi li vede</h2>
+      <p>Solo il team di Leukos (Antonio Pennino e Mariano Iscaro) e i servizi che usiamo per lavorare: Cloudflare (hosting del sito), WhatsApp (Meta), Gmail e Google Meet (Google), Cal.com (prenotazioni). Alcuni di questi fornitori possono trattare dati fuori dall'Unione Europea; lo fanno con le garanzie previste dal GDPR, come le clausole contrattuali standard o il Data Privacy Framework UE-USA.</p>
+
+      <h2>I tuoi diritti</h2>
+      <p>Puoi chiederci in ogni momento di vedere i tuoi dati, correggerli, cancellarli, limitarne l'uso, riceverli in un formato leggibile od opporti al loro trattamento. Basta una mail a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>: rispondiamo entro 30 giorni. Se pensi che i tuoi dati siano trattati in modo scorretto puoi fare reclamo al <a href="https://www.garanteprivacy.it/" target="_blank" rel="noopener">Garante per la protezione dei dati personali</a>.</p>
+
+      <h2>Cookie</h2>
+      <p>Il sito non usa cookie di profilazione né di statistica. Trovi i dettagli nella <a href="/cookie/">Cookie policy</a>.</p>
+    </div>
+  </section>
+</Base>

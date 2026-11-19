@@ -14,7 +14,7 @@ const relayout = () => layoutHooks.forEach(f => f());
 addEventListener('resize', relayout);
 if (document.fonts) document.fonts.ready.then(relayout);
 
-/* ---------- nav: menu mobile, nascondi scorrendo in giù ---------- */
+/* ---------- nav: sempre visibile; menu mobile ---------- */
 const nav = document.getElementById('nav'), menuBtn = document.getElementById('menuBtn');
 const setMenu = open => {
   nav.classList.toggle('open', open);
@@ -279,14 +279,13 @@ document.body.appendChild(progress);
 const par = document.querySelector('.hero-par');
 const heroText = document.querySelector('.hero-in, .p-hero .wrap, .page-top .wrap');
 const stepsEls = [...document.querySelectorAll('.steps')];
-let lastY = scrollY, prevY = scrollY, ticking = false;
+let prevY = scrollY, ticking = false;
 function onScroll() {
   ticking = false;
   const y = scrollY, vh = innerHeight;
   const doc = document.documentElement.scrollHeight - vh;
   progress.style.transform = `scaleX(${doc > 0 ? Math.min(1, y / doc).toFixed(4) : 0})`;
   nav.classList.toggle('solid', y > 260);
-  if (!nav.classList.contains('open') && Math.abs(y - lastY) > 4) { nav.classList.toggle('hide', y > lastY && y > 500); lastY = y; }
   if (RM) return;
   if (MQ) MQ.kick(y - prevY);
   prevY = y;

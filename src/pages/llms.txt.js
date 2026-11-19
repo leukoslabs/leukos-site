@@ -12,7 +12,7 @@ export function GET({ site }) {
 Leukos è uno studio creativo con sede a ${SITE.city} (Italia), fondato da Antonio Pennino (video editor) e Mariano Iscaro (product designer). Progetta e realizza direttamente brand, siti, app e video, dall'idea alla consegna, lavorando con pochi clienti alla volta.
 
 - Contatti: WhatsApp e telefono ${SITE.phone}, email ${SITE.email}, call conoscitiva su ${SITE.calendar}
-- P.IVA ${SITE.vat}
+- P.IVA ${SITE.vat} (intestata ad ${SITE.vatHolder}; Leukos è il nome dello studio)
 
 ## Servizi
 

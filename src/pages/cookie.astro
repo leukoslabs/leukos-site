@@ -1,0 +1,30 @@
+---
+/* Cookie policy. Se un giorno aggiungi statistiche, mappe o video incorporati (YouTube, Google Maps...) va aggiornata e serve un banner di consenso. */
+import Base from '../layouts/Base.astro';
+import PageTop from '../components/PageTop.astro';
+import { SITE } from '../data/site.js';
+const UPDATED = '19 novembre 2026';
+---
+<Base title="Cookie policy | Leukos" description="Il sito di Leukos non usa cookie di profilazione né di statistica: per questo non trovi un banner di consenso." current="cookie">
+  <PageTop title="Cookie policy" lead="Niente cookie di profilazione, niente banner." />
+  <section class="block">
+    <div class="wrap legal">
+      <p class="updated">Ultimo aggiornamento: {UPDATED}</p>
+
+      <h2>Cosa usa questo sito</h2>
+      <p>Nessun cookie di profilazione, di pubblicità o di statistica, e nessun altro dato salvato nel tuo browser. Font, immagini e video sono ospitati sul sito stesso: aprire una pagina non manda dati a Google, Meta o altri servizi. Per questo non ti chiediamo il consenso con un banner.</p>
+
+      <h2>Cookie tecnici dell'hosting</h2>
+      <p>Il sito è ospitato su Cloudflare. In casi particolari, ad esempio quando rileva traffico sospetto, Cloudflare può impostare un cookie tecnico di sicurezza per distinguere le persone dai bot. È un cookie necessario al funzionamento e alla protezione del sito e non serve a tracciarti.</p>
+
+      <h2>Link ad altri siti</h2>
+      <p>Se apri un link verso WhatsApp, Instagram, YouTube, TikTok, LinkedIn, Behance, Cal.com o altri siti, lasci il nostro sito: da lì valgono le regole sui cookie di quei servizi.</p>
+
+      <h2>Come gestire i cookie</h2>
+      <p>Puoi vedere e cancellare i cookie dalle impostazioni del tuo browser in qualsiasi momento.</p>
+
+      <h2>Contatti</h2>
+      <p>Per domande scrivi a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Il resto è spiegato nell'<a href="/privacy/">informativa privacy</a>.</p>
+    </div>
+  </section>
+</Base>

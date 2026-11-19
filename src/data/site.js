@@ -7,6 +7,8 @@ export const SITE = {
   region: 'BN',
   country: 'IT',
   vat: '01896160627',
+  // Leukos per ora è il nome dello studio: la partita IVA è intestata ad Antonio Pennino
+  vatHolder: 'Antonio Pennino',
   phone: '+39 329 982 6583',
   phoneE164: '+393299826583',
   whatsapp: '393299826583',
