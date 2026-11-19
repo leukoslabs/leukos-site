@@ -27,7 +27,7 @@ src/data/site.js        contatti, P.IVA, servizi, team
 src/styles/global.css   stili e animazioni (variabili del design system in :root)
 src/scripts/motion.js   animazioni, filtri, menu mobile, modulo contatti
 src/assets/img/         immagini (Astro le converte in webp in più misure)
-public/brand/           stella, icona, apple-touch-icon
+public/brand/           stella, icona, apple-touch-icon, logo.svg / logo-white.svg (scritta in tracciati), logo-512.png
 public/video/           clip in loop dei progetti (webm + mp4)
 public/_headers         cache e intestazioni di sicurezza (Cloudflare Pages, Netlify)
 ```
@@ -54,8 +54,6 @@ Le pagine `/privacy/` e `/cookie/` descrivono il sito com'è oggi: nessuna stati
 
 ## Da completare
 
-- Immagini originali in alta risoluzione (le attuali sono catture a ~1600px).
-- Logotipo "Leukos" vettoriale.
+- Immagini in alta risoluzione ancora da sostituire: schermate app (`freshy-app`, `vestio-app`, `revoluxio-app`, `feedeat`), `gamepeople-cover`, grafiche Petrillo (`petrillo-ig`, `petrillo-post1`, `petrillo-post2`), `process.jpg`, foto verticale di Antonio.
 - Profili social di Leukos (vanno anche in `sameAs` nei dati strutturati in `Base.astro`).
-- Foto di Mariano Iscaro (`photo` in `src/data/site.js`).
 - Profilo Google Business (indirizzo, orari, recensioni) per le ricerche locali a Benevento.

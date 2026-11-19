@@ -36,7 +36,7 @@ export const SERVICES = [
 export const TEAM = [
   {
     id: 'antonio-pennino', name: 'Antonio Pennino', role: 'Co-founder · Video', jobTitle: 'Video editor e co-founder',
-    photo: 'antonio.jpg', photoAlt: 'Ritratto di Antonio Pennino',
+    photo: 'antonio.jpg', photoAlt: 'Ritratto di Antonio Pennino', photoPos: '62% 30%',
     bio: "Video editor dal 2020 per creator, brand e professionisti; per documentari, cortometraggi e video aziendali cura anche riprese e regia. Laureato in Informatica per la Comunicazione Digitale all'Università di Camerino, scrive anche codice: ha creato <a href=\"https://smartsubspro.com/\" target=\"_blank\" rel=\"noopener\">SmartSubs Pro</a>, un plugin per DaVinci Resolve.",
     links: [
       { label: 'antoniopennino.it', href: 'https://antoniopennino.it/' },
@@ -45,7 +45,7 @@ export const TEAM = [
   },
   {
     id: 'mariano-iscaro', name: 'Mariano Iscaro', role: 'Co-founder · Design', jobTitle: 'Product designer e co-founder',
-    photo: null, photoAlt: '',
+    photo: 'mariano.jpg', photoAlt: 'Ritratto di Mariano Iscaro', photoPos: '55% 40%',
     bio: "Product designer: interfacce, prototipi, esperienza utente e identità di marca. Dal 2021 al 2024 ha curato UI/UX, brand identity e web design di FeedEat; oggi è Product Designer in Bandosubito. Gestisce Revoluxio e cosmos_italy. Laureato in Informatica per la Comunicazione Digitale all'Università di Camerino.",
     links: [
       { label: 'Behance', href: 'https://www.behance.net/mariano_iscaro' },

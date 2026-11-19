@@ -31,7 +31,7 @@ const jsonLd = await Promise.all(TEAM.map(async (t) => ({
       {TEAM.map((t) => (
         <article class="person rv" id={t.id}>
           {t.photo
-            ? <Image src={img(t.photo)} alt={t.photoAlt} widths={[360, 540, 720]} sizes="(max-width: 560px) calc(100vw - 96px), 180px" loading="lazy" />
+            ? <Image src={img(t.photo)} alt={t.photoAlt} widths={[360, 540, 720]} sizes="(max-width: 560px) calc(100vw - 96px), 180px" loading="lazy" style={t.photoPos ? `object-position:${t.photoPos}` : undefined} />
             : <div class="ph"><img src="/brand/star.svg" alt="" width="72" height="72" /><span>Foto in arrivo</span></div>}
           <div>
             <span class="role">{t.role}</span>

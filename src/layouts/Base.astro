@@ -19,7 +19,7 @@ interface Props {
   jsonLd?: object[];
   noindex?: boolean;
 }
-const { title, description, current, image = img('hero.jpg'), imageAlt = 'Leukos, studio creativo a Benevento', type = 'website', jsonLd = [], noindex = false } = Astro.props;
+const { title, description, current, image = img('og.jpg'), imageAlt = 'Leukos, studio creativo a Benevento', type = 'website', jsonLd = [], noindex = false } = Astro.props;
 
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;
@@ -35,7 +35,7 @@ const graph = [
     slogan: SITE.tagline,
     description: SITE.description,
     url: new URL('/', site).href,
-    logo: new URL('/brand/apple-touch-icon.png', site).href,
+    logo: new URL('/brand/logo-512.png', site).href,
     image: ogUrl,
     email: SITE.email,
     telephone: SITE.phoneE164,

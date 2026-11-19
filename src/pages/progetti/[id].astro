@@ -33,7 +33,7 @@ const jsonLd = [
 ---
 <Base title={`${p.name}: ${p.cat} | Leukos`} description={desc} current="progetti" image={img(p.cover)} imageAlt={p.gallery[0]?.alt || p.name} type="article" jsonLd={jsonLd}>
   <section class="p-hero">
-    <Image src={img(p.cover)} alt="" widths={[640, 960, 1280, 1600, 1920]} sizes="100vw" priority style={`object-position:${p.coverPos}`} />
+    <Image src={img(p.cover)} alt="" widths={[640, 960, 1280, 1600, 1920, 2400]} sizes="100vw" priority style={`object-position:${p.coverPos}`} />
     <div class="wrap">
       <nav aria-label="Percorso"><a class="back" href="/progetti/">← Tutti i progetti</a></nav>
       <div class="cat">{p.cat}</div>
